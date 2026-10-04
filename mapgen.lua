@@ -174,6 +174,11 @@ mapgen.shift_existing_biomes(NETHER_FLOOR, NETHER_CEILING)
 -- It is disguised as stone to hide any bug where it leaks out of the nether, such as
 -- https://github.com/luanti-org/luanti/issues/13440 or if on_generated() somehow was aborted.
 local stone_copy_def = table.copy(core.registered_nodes["default:stone"] or {})
+if stone_copy_def.groups then
+	stone_copy_def.groups.not_in_creative_inventory = 1
+else
+	stone_copy_def.groups = {not_in_creative_inventory = 1}
+end
 stone_copy_def.drop = stone_copy_def.drop or "default:stone" -- probably already defined as cobblestone
 core.register_node("nether:native_mapgen", stone_copy_def)
 
